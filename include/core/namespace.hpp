@@ -6,6 +6,10 @@
 
 #pragma once
 
+/*! \namespace core
+ * \brief Nova Core
+ */
+
 #define NAMESPACE_CORE core
 #define NAMESPACE_CORE_BEGIN \
    namespace core {
