@@ -8,6 +8,7 @@
 
 #include <cstddef>
 #include <cstring>
+#include <limits>
 
 #include <core/Uncopyable.hpp>
 
@@ -25,6 +26,8 @@
 #endif
 
 #define CORE_PACKED          __attribute__((packed))
+#define CORE_PACKED_ALIGNED  __attribute__((aligned(4),packed))
+
 #define CORE_FORCE_INLINE    inline __attribute__((always_inline))
 
 #define CORE_NORESET         __attribute__((section(".noreset")))
