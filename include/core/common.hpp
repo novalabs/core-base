@@ -24,7 +24,7 @@
 #define CORE_MEMORY_ALIGNED  __attribute__((aligned(sizeof(unsigned))))
 #endif
 
-#define CORE_PACKED          __attribute__((packed))
+#define CORE_PACKED          __attribute__((aligned(sizeof(unsigned)),packed))
 #define CORE_FORCE_INLINE    inline __attribute__((always_inline))
 
 #define CORE_NORESET         __attribute__((section(".noreset")))
