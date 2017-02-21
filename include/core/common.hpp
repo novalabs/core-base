@@ -1,4 +1,4 @@
-/* COPYRIGHT (c) 2016 Nova Labs SRL
+/* COPYRIGHT (c) 2016-2017 Nova Labs SRL
  *
  * All rights reserved. All use of this software and documentation is
  * subject to the License Agreement located in the file LICENSE.
@@ -9,6 +9,15 @@
 #include <cstddef>
 #include <cstring>
 #include <limits>
+
+#include <core/os/namespace.hpp>
+
+NAMESPACE_CORE_OS_BEGIN
+enum class CallingContext {
+    NORMAL, ISR, SYSLOCK
+};
+
+NAMESPACE_CORE_OS_END
 
 #include <core/Uncopyable.hpp>
 
@@ -26,7 +35,7 @@
 #endif
 
 #define CORE_PACKED          __attribute__((packed))
-#define CORE_PACKED_ALIGNED  __attribute__((aligned(4),packed))
+#define CORE_PACKED_ALIGNED  __attribute__((aligned(4), packed))
 
 #define CORE_FORCE_INLINE    inline __attribute__((always_inline))
 
@@ -44,29 +53,29 @@ CORE_FORCE_INLINE
 void
 static_cast_check()
 {
-   register const Test* const pd = NULL;
-   register const Base* const pb = pd;
+    register const Test* const pd = NULL;
+    register const Base* const pb = pd;
 
-   (void)pd;
-   (void)pb;
+    (void)pd;
+    (void)pb;
 }
 
 inline
 size_t
 bit_mask(
-   size_t num_bits
+    size_t num_bits
 )
 {
-   return (static_cast<size_t>(1) << num_bits) - 1;
+    return (static_cast<size_t>(1) << num_bits) - 1;
 }
 
 inline
 size_t
 byte_mask(
-   size_t num_bytes
+    size_t num_bytes
 )
 {
-   return bit_mask(num_bytes << 3);
+    return bit_mask(num_bytes << 3);
 }
 
 template <typename T>
@@ -74,59 +83,62 @@ inline
 size_t
 type_mask()
 {
-   return byte_mask(sizeof(T));
+    return byte_mask(sizeof(T));
 }
 
 template <typename T>
 inline
 size_t
 compute_chunk_size(
-   const T* startp,
-   const T* endxp
+    const T* startp,
+    const T* endxp
 )
 {
-   return static_cast<size_t>(
-      reinterpret_cast<ptrdiff_t>(endxp) - reinterpret_cast<ptrdiff_t>(startp)
-   );
+    return static_cast<size_t>(
+        reinterpret_cast<ptrdiff_t>(endxp) - reinterpret_cast<ptrdiff_t>(startp)
+    );
 }
 
 inline
 bool
 check_bounds(
-   const void* valuep,
-   size_t      valuelen,
-   const void* slotp,
-   size_t      slotlen
+    const void* valuep,
+    size_t      valuelen,
+    const void* slotp,
+    size_t      slotlen
 )
 {
-   register const uint8_t* const vp = reinterpret_cast<const uint8_t*>(valuep);
-   register const uint8_t* const sp = reinterpret_cast<const uint8_t*>(slotp);
+    register const uint8_t* const vp = reinterpret_cast<const uint8_t*>(valuep);
+    register const uint8_t* const sp = reinterpret_cast<const uint8_t*>(slotp);
 
-   return vp >= sp && (vp + valuelen) <= (sp + slotlen);
+    return vp >= sp && (vp + valuelen) <= (sp + slotlen);
 }
 
 inline
 size_t
 compute_segment(
-   const void* ptr,
-   size_t      segment_size
+    const void* ptr,
+    size_t      segment_size
 )
 {
-   return reinterpret_cast<size_t>(ptr) & ~(segment_size - 1);
+    return reinterpret_cast<size_t>(ptr) & ~(segment_size - 1);
 }
 
 inline
 size_t
 compute_offset(
-   const void* ptr,
-   size_t      segment_size
+    const void* ptr,
+    size_t      segment_size
 )
 {
-   return reinterpret_cast<size_t>(ptr) & (segment_size - 1);
+    return reinterpret_cast<size_t>(ptr) & (segment_size - 1);
 }
 
 #define MANAGEMENT_TOPIC_NAME "R2P"
 #define MANAGEMENT_TOPIC_ID ((uint8_t)0x00)
+
+#define BOOTLOADER_MASTER_TOPIC_NAME "BOOTLOADERMSTR"
+#define BOOTLOADER_MASTER_TOPIC_ID ((uint8_t)0xFC)
 
 #define BOOTLOADER_TOPIC_NAME "BOOTLOADER"
 #define BOOTLOADER_TOPIC_ID ((uint8_t)0xFD)
