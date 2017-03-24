@@ -10,15 +10,6 @@
 #include <cstring>
 #include <limits>
 
-#include <core/os/namespace.hpp>
-
-NAMESPACE_CORE_OS_BEGIN
-enum class CallingContext {
-    NORMAL, ISR, SYSLOCK
-};
-
-NAMESPACE_CORE_OS_END
-
 #include <core/Uncopyable.hpp>
 
 #include <core/mw/Utils.hpp>
