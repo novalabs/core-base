@@ -126,13 +126,17 @@ public:
         return false;
     }
 
-    void reset() {
+    void
+    reset()
+    {
         _curr  = this->data();
         _top   = _curr + SIZE - 1;
         *_curr = 0;
     }
 
-    std::size_t length() const {
+    std::size_t
+    length() const
+    {
         return _curr - this->data();
     }
 
