@@ -118,6 +118,16 @@ struct String {
         }
     }
 
+    void
+    operator=(
+        const Array<char, S>& x
+    )
+    {
+        for (std::size_t i = 0; i <= S; i++) {
+            _data[i] = x[i];
+        }
+    }
+
     /*! \brief Cast operator
      *
      * \return pointer to the underlying element storage
@@ -163,6 +173,17 @@ operator==(
 )
 {
     return strncmp(lhs, rhs.data(), S) == 0;
+}
+
+template <std::size_t S>
+inline bool
+operator==(
+        const String<S>& lhs,
+        const char*      rhs
+
+)
+{
+    return strncmp(rhs, lhs.data(), S) == 0;
 }
 
 template <std::size_t S>
