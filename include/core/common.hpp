@@ -128,6 +128,9 @@ compute_offset(
 #define MANAGEMENT_TOPIC_NAME "R2P"
 #define MANAGEMENT_TOPIC_ID ((uint8_t)0x00)
 
+#define RPC_TOPIC_NAME "CORERPC"
+#define RPC_TOPIC_ID ((uint8_t)0xFB)
+
 #define BOOTLOADER_MASTER_TOPIC_NAME "BOOTLOADERMSTR"
 #define BOOTLOADER_MASTER_TOPIC_ID ((uint8_t)0xFC)
 
