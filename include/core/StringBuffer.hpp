@@ -127,9 +127,23 @@ public:
     }
 
     void
+    mark()
+    {
+        _mark = _curr;
+    }
+
+    void
+    rewind()
+    {
+        _curr = _mark;
+        *_curr = 0;
+    }
+
+    void
     reset()
     {
         _curr  = this->data();
+        _mark  = _curr;
         _top   = _curr + SIZE - 1;
         *_curr = 0;
     }
@@ -143,6 +157,7 @@ public:
 private:
     typename core::String<SIZE>::pointer _curr = nullptr;
     typename core::String<SIZE>::pointer _top  = nullptr;
+    typename core::String<SIZE>::pointer _mark = nullptr;
 };
 
 NAMESPACE_CORE_END
