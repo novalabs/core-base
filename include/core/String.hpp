@@ -32,6 +32,7 @@ struct String {
     using size_type       = std::size_t;  //!< Type of index and size
     using difference_type = std::ptrdiff_t;
 
+    static const size_type SIZE = S;
 
     using Traits = ArrayTraits<char, S>;
     typename Traits::Type _data;
