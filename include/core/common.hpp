@@ -16,6 +16,18 @@
 #include <core/mw/Utils.hpp>
 #include <core/os/SysLock.hpp>
 
+# if __GNUC_PREREQ(4, 6)
+#  define CORE_WARNINGS_NO_CAST_ALIGN \
+    _Pragma ("GCC diagnostic push") \
+    _Pragma ("GCC diagnostic ignored \"-Wcast-align\"")
+
+#  define CORE_WARNINGS_RESET \
+    _Pragma ("GCC diagnostic pop")
+# else
+#  define CORE_WARNINGS_NO_CAST_ALIGN
+#  define CORE_WARNINGS_RESET
+# endif
+
 #ifdef USE_CORE_ASSERT
 #define CORE_ASSERT(expr) {chDbgCheck(expr); }
 #else
