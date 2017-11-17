@@ -80,6 +80,13 @@ struct String {
         _data[0] = 0;
     }
 
+    void
+	fill(value_type c) {
+        for (std::size_t i = 0; i < S; i++) {
+            _data[i] = c;
+        }
+    }
+
     std::size_t
     length() const
     {
