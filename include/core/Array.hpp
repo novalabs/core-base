@@ -8,6 +8,7 @@
 
 #include <core/namespace.hpp>
 #include <core/common.hpp>
+#include <core/ConstArray.hpp>
 #include <memory>
 
 NAMESPACE_CORE_BEGIN
@@ -289,6 +290,32 @@ struct Array {
         return data();
     }
 
+    template <std::size_t S2>
+    void
+    operator=(
+        const Array<T, S2>& x
+    )
+    {
+        static_assert(S2 <= S, "The size of the source array must be less than or equal to the size of this array");
+
+        for (std::size_t i = 0; i <= S; i++) {
+            _data[i] = x[i];
+        }
+    }
+
+    template <std::size_t S2>
+    void
+    operator=(
+        const ConstArray<T, S2>& x
+    )
+    {
+        static_assert(S2 <= S, "The size of the source array must be less than or equal to the size of this array");
+
+        for (std::size_t i = 0; i <= S; i++) {
+            _data[i] = x[i];
+        }
+    }
+
     void
     copyFrom(
         typename Traits::ConstType from
@@ -347,6 +374,58 @@ template <typename T, std::size_t S>
 inline bool
 operator!=(
     const typename ArrayTraits<T, S>::Type& lhs,
+    const Array<T, S>& rhs
+)
+{
+    return !(lhs == rhs);
+}
+
+template <typename T, std::size_t S>
+inline bool
+operator==(
+    const Array<T, S>& lhs,
+    const ConstArray<T, S>& rhs
+)
+{
+    for (std::size_t i = 0; i < S; i++) {
+        if (lhs[i] != rhs[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+template <typename T, std::size_t S>
+inline bool
+operator==(
+    const ConstArray<T, S>& lhs,
+    const Array<T, S>& rhs
+)
+{
+    for (std::size_t i = 0; i < S; i++) {
+        if (lhs[i] != rhs[i]) {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+template <typename T, std::size_t S>
+inline bool
+operator!=(
+    const Array<T, S>& lhs,
+    const ConstArray<T, S>& rhs
+)
+{
+    return !(lhs == rhs);
+}
+
+template <typename T, std::size_t S>
+inline bool
+operator!=(
+    const ConstArray<T, S>& lhs,
     const Array<T, S>& rhs
 )
 {
