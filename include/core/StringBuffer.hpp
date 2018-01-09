@@ -79,6 +79,22 @@ public:
         return true;
     } // append
 
+    inline bool
+    appendChar(
+        const char c
+    )
+    {
+        size_t m = (size_t)(_top - _curr);
+
+        if(m > 0) {
+            *_curr++ = c;
+        }
+
+        *_curr = 0;
+
+        return true;
+    }
+
     bool
     appendFormat(
         const char* format,
