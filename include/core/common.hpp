@@ -43,6 +43,8 @@
 
 #define CORE_FORCE_INLINE    inline __attribute__((always_inline))
 
+#define UNREACHABLE          __builtin_unreachable();
+
 #define CORE_NORESET         __attribute__((section(".noreset")))
 
 #define CORE_APP_CONFIG      __attribute__((section("app_config")))
