@@ -34,7 +34,7 @@ struct String {
 
     static const size_type SIZE = S;
 
-    using Traits = ArrayTraits<char, S>;
+    using Traits = ArrayTraits<char, S + 1>;
     typename Traits::Type _data;
 
     // Capacity.
@@ -78,6 +78,7 @@ struct String {
     clear()
     {
         _data[0] = 0;
+        _data[S] = 0; // Add a 0 at the end of the string.
     }
 
     void
