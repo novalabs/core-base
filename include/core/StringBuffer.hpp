@@ -169,6 +169,11 @@ public:
         return _curr - this->data();
     }
 
+    std::size_t
+    free() const
+    {
+        return _top - _curr;
+    }
 private:
     typename core::String<SIZE>::pointer _curr = nullptr;
     typename core::String<SIZE>::pointer _top  = nullptr;
