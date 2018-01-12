@@ -160,7 +160,7 @@ public:
     {
         _curr  = this->data();
         _mark  = _curr;
-        _top   = _curr + SIZE - 1;
+        _top   = _curr + SIZE;
         *_curr = 0;
     }
 
