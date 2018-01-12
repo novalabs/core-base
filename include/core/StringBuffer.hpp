@@ -88,9 +88,8 @@ public:
 
         if(m > 0) {
             *_curr++ = c;
+            *_curr = 0;
         }
-
-        *_curr = 0;
 
         return true;
     }
