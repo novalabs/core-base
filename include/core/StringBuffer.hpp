@@ -38,6 +38,7 @@ template <std::size_t SIZE>
 class StringBuffer:
     public core::String<SIZE>
 {
+	static_assert(SIZE >= 1, "SIZE must be at least 1 (= the trailing 0)");
 public:
     StringBuffer()
     {
@@ -159,7 +160,7 @@ public:
     {
         _curr  = this->data();
         _mark  = _curr;
-        _top   = _curr + SIZE;
+        _top   = _curr + SIZE - 1;
         *_curr = 0;
     }
 
