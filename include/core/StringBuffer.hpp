@@ -50,6 +50,10 @@ public:
         const char* s
     )
     {
+    	if(s == nullptr) {
+    		return false;
+    	}
+
         return appendString(s, strlen(s));
     }
 
@@ -59,7 +63,11 @@ public:
         size_t      n
     )
     {
-        size_t m = n;
+    	if(s == nullptr) {
+    		return false;
+    	}
+
+    	size_t m = n;
 
         if (m > (size_t)(_top - _curr)) {
             m = (size_t)(_top - _curr);
