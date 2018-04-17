@@ -10,7 +10,17 @@
 #include <core/common.hpp>
 #include <core/Array.hpp>
 #include <core/String.hpp>
-#include <core/os/Time.hpp>
+
+#ifndef CORETYPE_TIMESTAMP_TYPE
+#include <ctime>
+
+// std::timespec is C++17
+namespace std {
+using ::timespec;
+}
+
+#define CORETYPE_TIMESTAMP_TYPE std::timespec
+#endif
 
 NAMESPACE_CORE_BEGIN
 
@@ -83,11 +93,7 @@ struct CoreTypeTraitsHelperF<CoreType::UINT64>{
 
 template <>
 struct CoreTypeTraitsHelperF<CoreType::TIMESTAMP>{
-    typedef struct {
-        uint32_t sec;
-        uint32_t nsec;
-    } Type;
-//		typedef core::mwcore::os::Time Type;
+    typedef CORETYPE_TIMESTAMP_TYPE Type;
     static const std::size_t sizeOfType = sizeof(Type);
 };
 
