@@ -15,6 +15,7 @@
 
 #include <core/mw/Utils.hpp>
 #include <core/os/SysLock.hpp>
+#include <core/os/OS.hpp>
 
 # if __GNUC_PREREQ(4, 6)
 #  define CORE_WARNINGS_NO_CAST_ALIGN \
@@ -33,6 +34,12 @@
 #else
 #define CORE_ASSERT(expr) {}
 #endif
+
+#define CORE_ENSURE_THAT(expr) do {      \
+    if(!(expr)) {                        \
+        core::os::OS::halt(__func__);    \
+    }                                    \
+} while(false)
 
 #ifndef CORE_MEMORY_ALIGNED
 #define CORE_MEMORY_ALIGNED  __attribute__((aligned(sizeof(unsigned))))
