@@ -9,6 +9,7 @@
 #include <core/namespace.hpp>
 #include <core/common.hpp>
 #include <core/ConstArray.hpp>
+#include <core/String.hpp>
 
 NAMESPACE_CORE_BEGIN
 
@@ -102,11 +103,51 @@ operator==(
     return strncmp(lhs.data(), rhs.data(), S) == 0;
 }
 
+template <std::size_t S1, std::size_t S2>
+inline bool
+operator==(
+    const ConstString<S1>& lhs,
+    const String<S2>& rhs
+)
+{
+    return strncmp(lhs.data(), rhs.data(), std::min(S1, S2)) == 0;
+}
+
+template <std::size_t S1, std::size_t S2>
+inline bool
+operator==(
+    const String<S1>& lhs,
+    const ConstString<S2>& rhs
+)
+{
+    return strncmp(lhs.data(), rhs.data(), std::min(S1, S2)) == 0;
+}
+
 template <std::size_t S>
 inline bool
 operator!=(
     const ConstString<S>& lhs,
     const ConstString<S>& rhs
+)
+{
+    return !(lhs == rhs);
+}
+
+template <std::size_t S1, std::size_t S2>
+inline bool
+operator!=(
+    const ConstString<S1>& lhs,
+    const String<S2>& rhs
+)
+{
+    return !(lhs == rhs);
+}
+
+template <std::size_t S1, std::size_t S2>
+inline bool
+operator!=(
+    const String<S1>& lhs,
+    const ConstString<S1>& rhs
 )
 {
     return !(lhs == rhs);
