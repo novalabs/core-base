@@ -128,6 +128,40 @@ struct CoreTypeTraitsHelperF<CoreType::VARIANT>{
         };
 
         CoreType type;
+
+        template<typename T>
+        void operator=(T rhs) = delete;
+
+        template<typename T>
+        operator T () = delete;
+
+#ifdef __OPS
+#error "__OPS already defined"
+#else
+#define __OPS(__ct__, __t__) \
+        void operator=(CoreTypeTraitsHelperF<core::CoreType::__ct__>::Type rhs) { \
+            this->type = core::CoreType::__ct__;                                  \
+            this->__t__ = rhs;                                                    \
+        }                                                                         \
+        operator CoreTypeTraitsHelperF<core::CoreType::__ct__>::Type () {         \
+            return this->__t__;                                                   \
+        }
+
+        __OPS(TIMESTAMP, timestamp);
+        __OPS(FLOAT64, f64);
+        __OPS(INT64, i64);
+        __OPS(UINT64, u64);
+        __OPS(FLOAT32, f32);
+        __OPS(INT32, i32);
+        __OPS(UINT32, u32);
+        __OPS(INT16, i16);
+        __OPS(UINT16, u16);
+        __OPS(INT8, i16);
+        __OPS(UINT8, u16);
+        __OPS(CHAR, u16);
+#undef __OPS
+#endif
+
     } Type;
     static const std::size_t sizeOfType = sizeof(Type);
 };
