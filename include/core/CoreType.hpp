@@ -25,7 +25,7 @@ using ::timespec;
 NAMESPACE_CORE_BEGIN
 
 enum class CoreType {
-    VOID, CHAR, INT8, UINT8, INT16, UINT16, INT32, UINT32, INT64, UINT64, FLOAT32, FLOAT64, TIMESTAMP, VARIANT
+    VOID, CHAR, INT8, UINT8, INT16, UINT16, INT32, UINT32, INT64, UINT64, FLOAT32, FLOAT64, TIMESTAMP, VARIANT, BOOL
 };
 
 template <CoreType T>
@@ -125,6 +125,7 @@ struct CoreTypeTraitsHelperF<CoreType::VARIANT>{
             CoreTypeTraitsHelperF<core::CoreType::INT8>::Type i8;
             CoreTypeTraitsHelperF<core::CoreType::UINT8>::Type u8;
             CoreTypeTraitsHelperF<core::CoreType::CHAR>::Type c;
+            uint8_t boolean;
         };
 
         CoreType type;
@@ -145,6 +146,15 @@ struct CoreTypeTraitsHelperF<CoreType::VARIANT>{
         }                                                                         \
         operator CoreTypeTraitsHelperF<core::CoreType::__ct__>::Type () {         \
             return this->__t__;                                                   \
+        }
+
+        void operator=(bool rhs) {
+            this->type = core::CoreType::BOOL;
+            this->boolean = rhs ? 1 : 0;
+        }
+
+        operator bool () {
+            return this->boolean != 0;
         }
 
         __OPS(TIMESTAMP, timestamp);
@@ -493,6 +503,16 @@ variantGet(
     x = value.c;
 }
 
+template <>
+inline void
+variantGet(
+    const core::CoreTypeTraits<core::CoreType::VARIANT, 1>::Type& value,
+    bool& x
+)
+{
+    x = value.boolean != 0;
+}
+
 template <typename T>
 inline void
 variantSet(
@@ -610,8 +630,17 @@ variantSet(
 {
     value.c = x;
 }
-}
 
+template <>
+inline void
+variantSet(
+    bool x,
+    core::CoreTypeTraits<core::CoreType::VARIANT, 1>::Type& value
+)
+{
+    value.boolean = x ? 1 : 0;
+}
+}
 
 NAMESPACE_CORE_END
 
